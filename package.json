@@ -16,7 +16,8 @@
   "dependencies": {
     "eslint": "^6.1.0",
     "eslint-config-airbnb-base": "^13.2.0",
-    "eslint-plugin-import": "^2.18.2"
+    "eslint-plugin-import": "^2.18.2",
+    "mongodb": "^3.3.0-beta2"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
