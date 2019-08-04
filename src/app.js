@@ -1,19 +1,24 @@
-import { MongoClient } from 'mongodb';
+import express from 'express';
+import logger from 'morgan';
+import './db/mongoose';
+import User from './models/user';
 
-const uri = 'mongodb://127.0.0.1:27017';
-const databaseName = 'task-manager';
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-const client = new MongoClient(uri, { useNewUrlParser: true });
+app.use(express.json());
+app.use(logger('dev'));
 
-client.connect((error) => {
-  if (error) {
-    return console.log('could not connect to the database.');
-  }
+app.post('/users', (req, res) => {
+  const user = new User(req.body);
 
-  const db = client.db(databaseName);
-
-  db.collection('users').insertOne({
-    name: 'Monday Victor',
-    age: 27,
+  user.save().then(() => {
+    res.send(user);
+  }).catch((e) => {
+    res.status(400).send(e);
   });
+});
+
+app.listen(PORT, () => {
+  console.log(`server is up and running at ${PORT}`);
 });

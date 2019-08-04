@@ -8,7 +8,7 @@
     "clean": "rm -rf ./dist",
     "build": "npm run clean && mkdir dist && babel src -d dist/src -s",
     "serve": "npm run build && node bin/production",
-    "test": "npm run build && mocha dist/src/test"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -17,7 +17,11 @@
     "eslint": "^6.1.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.18.2",
-    "mongodb": "^3.3.0-beta2"
+    "express": "^4.17.1",
+    "mongodb": "^3.3.0-beta2",
+    "mongoose": "^5.6.8",
+    "morgan": "^1.9.1",
+    "validator": "^11.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
@@ -26,6 +30,7 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/register": "^7.5.5",
     "chai": "^4.2.0",
+    "jest": "^24.8.0",
     "mocha": "^6.2.0",
     "nodemon": "^1.19.1"
   }
