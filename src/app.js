@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import express from 'express';
 import logger from 'morgan';
 import User from './models/user';
@@ -21,6 +22,25 @@ app.post('/users', (req, res) => {
   });
 });
 
+app.get('/users', (req, res) => {
+  User.find({}).then((response) => {
+    res.status(200).send(response);
+  }).catch((e) => {
+    res.status(500).send(e);
+  });
+});
+
+app.get('/users/:id', (req, res) => {
+  const { id } = req.params;
+
+  User.findById(id).then((user) => {
+    if (!user) return res.status(404).send();
+    res.send(user);
+  }).catch((e) => {
+    res.status(500).send(e);
+  });
+});
+
 app.post('/tasks', (req, res) => {
   const task = new Task(req.body);
 
@@ -32,6 +52,5 @@ app.post('/tasks', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
   console.log(`server is up and running at ${PORT}`);
 });
