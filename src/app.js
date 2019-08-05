@@ -14,6 +14,5 @@ app.use(logger('dev'));
 app.use(userRouter);
 app.use(taskRouter);
 
-app.listen(PORT, () => {
-  console.log(`server is up and running at ${PORT}`);
-});
+
+export default app;
