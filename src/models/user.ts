@@ -75,30 +75,19 @@ export const generateAuthToken = async function(user: any) {
 
   return token;
 };
-// userSchema.methods.generateAuthToken = async function() {
-//   const user = this;
-//   const token = jwt.sign(
-//     { _id: user._id.toString() },
-//     process.env.JWT_SECRET + ''
-//   );
-
-//   user.tokens = user.tokens.concat({ token });
-//   await user.save();
-
-//   return token;
-// };
 
 export const findByCredentials = async (email: string, password: string) => {
   const user = await User.findOne({ email });
-
+  console.log('MODEL');
+  console.log(user);
   if (!user) {
     throw new Error('Unable to login');
   }
+  console.log(user.toJSON().password);
+  const isMatch = await bcrypt.compare(password, user.toJSON().password);
 
-  const isMatch = await bcrypt.compare(
-    password,
-    JSON.parse(user.toString()).password
-  );
+  console.log(isMatch);
+  console.log('isMatch');
 
   if (!isMatch) {
     throw new Error('Unable to login');
@@ -106,41 +95,6 @@ export const findByCredentials = async (email: string, password: string) => {
 
   return user;
 };
-// userSchema.statics.findByCredentials = async (
-//   email: string,
-//   password: string
-// ) => {
-//   const user = await User.findOne({ email });
-
-//   if (!user) {
-//     throw new Error('Unable to login');
-//   }
-
-//   const isMatch = await bcrypt.compare(
-//     password,
-//     JSON.parse(user.toString()).password
-//   );
-
-//   if (!isMatch) {
-//     throw new Error('Unable to login');
-//   }
-
-//   return user;
-// };
-
-// Hash the plain text password before saving
-userSchema.pre('save', async function(next: NextFunction) {
-  const user = this;
-
-  if (user.isModified('password')) {
-    JSON.parse(user.toString()).password = await bcrypt.hash(
-      JSON.parse(user.toString()).password,
-      8
-    );
-  }
-
-  next();
-});
 
 // Delete user tasks when user is removed
 userSchema.pre('remove', async function(next: NextFunction) {

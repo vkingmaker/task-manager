@@ -1,8 +1,13 @@
 import multer from 'multer';
+import bcrypt from 'bcryptjs';
 import express, { Request, Response } from 'express';
 import sharp from 'sharp';
 import { auth } from '../middleware/auth';
-import User, { findByCredentials, generateAuthToken } from '../models/user';
+import User, {
+  findByCredentials,
+  generateAuthToken,
+  preSave
+} from '../models/user';
 import { sendWelcomeEmail, sendCancelationEmail } from '../emails/account';
 
 const router = express.Router();
@@ -22,18 +27,12 @@ interface RequestCustom extends Request {
 }
 
 router.post('/users', async (req: Request, res: Response) => {
-  // console.log(User);
-
-  const user = new User(req.body);
-
-  console.log(user.toJSON());
-
   try {
+    req.body.password = await bcrypt.hash(req.body.password, 8);
+    const user = new User(req.body);
     await user.save();
     sendWelcomeEmail(user.toJSON().email, user.toJSON().name);
-    console.log('Got here');
     const token = await generateAuthToken(user);
-    console.log(token);
     res.status(201).send({ user, token });
   } catch (e) {
     res.status(400).send(e);

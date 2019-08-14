@@ -13,8 +13,6 @@ app.use(logger('dev'));
 app.use(userRouter);
 app.use(taskRouter);
 
-console.log('running');
-
 app.listen(PORT, () => {
   console.log(`server is up and running at ${PORT}`);
 });
