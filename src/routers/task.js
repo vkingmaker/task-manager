@@ -63,9 +63,9 @@ router.get('/tasks/:id', auth, async (req, res) => {
       return res.status(404).send();
     }
 
-    res.send(task);
+    return res.send(task);
   } catch (e) {
-    res.status(500).send();
+    return res.status(500).send();
   }
 });
 
@@ -90,9 +90,9 @@ router.patch('/tasks/:id', auth, async (req, res) => {
     });
 
     await task.save();
-    res.send(task);
+    return res.send(task);
   } catch (e) {
-    res.status(400).send(e);
+    return res.status(400).send(e);
   }
 });
 

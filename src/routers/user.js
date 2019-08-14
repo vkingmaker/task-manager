@@ -33,9 +33,7 @@ router.post('/users/login', async (req, res) => {
 
 router.post('/users/logout', auth, async (req, res) => {
   try {
-    req.user.tokens = req.user.tokens.filter((token) => {
-      return token.token !== req.token;
-    });
+    req.user.tokens = req.user.tokens.filter(token => token.token !== req.token);
     await req.user.save();
 
     res.send();
@@ -68,7 +66,7 @@ router.patch('/users/me', auth, async (req, res) => {
   }
 
   try {
-    updates.forEach((update) => { 
+    updates.forEach((update) => {
       req.user[update] = req.body[update];
     });
     await req.user.save();
@@ -106,7 +104,7 @@ router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) 
   req.user.avatar = buffer;
   await req.user.save();
   res.send();
-}, (error, req, res, next) => {
+}, (error, req, res) => {
   res.status(400).send({ error: error.message });
 });
 

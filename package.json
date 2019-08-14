@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "env-cmd -f ./config/dev.env nodemon bin/dev",
+    "lint": "eslint ./src/**/*.js",
     "clean": "rm -rf ./dist",
     "build": "npm run clean && mkdir dist && babel src -d dist/src -s",
     "serve": "npm run build && node bin/production",
