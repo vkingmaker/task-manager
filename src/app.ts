@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import express from 'express';
 import logger from 'morgan';
 import userRouter from './routers/user';
@@ -14,5 +13,8 @@ app.use(logger('dev'));
 app.use(userRouter);
 app.use(taskRouter);
 
+console.log('running');
 
-export default app;
+app.listen(PORT, () => {
+  console.log(`server is up and running at ${PORT}`);
+});
